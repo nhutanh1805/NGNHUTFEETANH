@@ -1,169 +1,225 @@
 <template>
   <div class="min-h-screen bg-light">
 
-    <section class="bg-gradient-primary text-white position-relative overflow-hidden py-5">
-      <div class="bg-dark opacity-50 position-absolute top-0 start-0 w-100 h-100"></div>
+    <!-- NÚT DỪNG / CHẠY TẤT CẢ VIDEO -->
+    <div class="video-control-global">
+      <button class="btn btn-dark rounded-pill px-4 py-2 fw-bold"
+              @click="toggleAllVideos">
+        {{ allPlaying ? "⏸ Dừng tất cả video" : "▶ Phát tất cả video" }}
+      </button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-mystic text-white position-relative overflow-hidden py-5">
+      <div class="bg-dark opacity-60 position-absolute top-0 start-0 w-100 h-100"></div>
       <div class="container position-relative py-5">
         <div class="row justify-content-center text-center py-5">
           <div class="col-lg-10">
-            <h1 class="display-3 fw-bold mb-4">PhoneStore 2025</h1>
-            <p class="lead fs-3 mb-5 opacity-90">Điện thoại chính hãng – Giá tốt nhất Việt Nam</p>
+            <h1 class="display-3 fw-bold mb-4">
+              Thư Viện Truyện 2025
+            </h1>
+            <p class="lead fs-3 mb-5 opacity-90">
+              Fantasy • Thần thoại • Hành động • Những câu chuyện huyền thoại bất tận
+            </p>
             <div class="d-flex flex-column flex-sm-row gap-4 justify-content-center">
-              <router-link to="/products" class="btn btn-light btn-lg px-5 py-4 rounded-pill shadow-lg fw-bold fs-5">
-                MUA NGAY
+              <router-link to="/stories"
+                class="btn btn-light btn-lg px-5 py-4 rounded-pill fw-bold">
+                ĐỌC NGAY
               </router-link>
-              <button class="btn btn-outline-light btn-lg px-5 py-4 rounded-pill fw-bold fs-5">
-                Xem khuyến mãi
-              </button>
+              <router-link to="/stories"
+                class="btn btn-outline-light btn-lg px-5 py-4 rounded-pill fw-bold">
+                Khám phá tất cả truyện
+              </router-link>
             </div>
           </div>
         </div>
       </div>
-      <div class="position-absolute bottom-0 start-0 end-0">
-        <svg viewBox="0 0 1440 120" class="w-100 fill-light">
-          <path d="M0,0 L1440,0 L1440,120 L0,60 Z"></path>
-        </svg>
-      </div>
     </section>
 
+    <!-- Genres -->
     <section class="py-5 bg-white">
       <div class="container py-5">
-        <h2 class="text-center display-5 fw-bold mb-5 text-dark">Thương hiệu nổi bật</h2>
-        <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4 justify-content-center">
-          <div class="col text-center"><img :src="assets.AppleLogo" class="img-fluid" style="height:60px" alt="Apple"></div>
-          <div class="col text-center"><img :src="assets.SamsungLogo" class="img-fluid" style="height:60px" alt="Samsung"></div>
-          <div class="col text-center"><img :src="assets.XiaomiLogo" class="img-fluid" style="height:70px" alt="Xiaomi"></div>
-          <div class="col text-center"><img :src="assets.OppoLogo" class="img-fluid" style="height:60px" alt="Oppo"></div>
-          <div class="col text-center"><img :src="assets.VivoLogo" class="img-fluid" style="height:60px" alt="Vivo"></div>
-          <div class="col text-center"><img :src="assets.GooglePixelLogo" class="img-fluid" style="height:55px" alt="Google Pixel"></div>
+        <h2 class="text-center fw-bold mb-5">Thể loại nổi bật</h2>
+        <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4 text-center">
+          <div class="col"><div class="genre-icon bg-fantasy mx-auto mb-2"></div>Fantasy</div>
+          <div class="col"><div class="genre-icon bg-action mx-auto mb-2"></div>Action</div>
+          <div class="col"><div class="genre-icon bg-myth mx-auto mb-2"></div>Thần thoại</div>
+          <div class="col"><div class="genre-icon bg-adventure mx-auto mb-2"></div>Phiêu lưu</div>
+          <div class="col"><div class="genre-icon bg-romance mx-auto mb-2"></div>Lãng mạn</div>
+          <div class="col"><div class="genre-icon bg-scifi mx-auto mb-2"></div>Sci-Fi</div>
         </div>
       </div>
     </section>
 
+    <!-- VIDEO BANNER LỚN -->
     <section class="py-5 bg-dark text-white">
-  <div class="container">
-    <h2 class="text-center display-5 fw-bold mb-5">Siêu phẩm công nghệ 2025 đã có mặt!</h2>
-    <div class="text-center">
-      <video 
-        class="img-fluid rounded-4 shadow-lg" 
-        controls 
-        loop 
-        muted 
-        autoplay 
-        :poster="assets.VideoPoster" 
-        style="max-height: 500px; width: 100%; object-fit: cover;"
-      >
-        <source src="/src/assets/video/Banner.mp4" type="video/mp4">
-        
-        Trình duyệt của bạn không hỗ trợ thẻ video.
-      </video>
-      <p class="mt-3 text-muted">Xem ngay video giới thiệu chi tiết về dòng điện thoại mới nhất!</p>
-    </div>
-  </div>
-</section>
+      <div class="container text-center">
+        <h2 class="fw-bold mb-4">
+          Siêu phẩm truyện mới 2025 đã cập bến!
+        </h2>
+
+        <video
+          ref="mainVideoRef"
+          class="img-fluid rounded-4 shadow-lg"
+          autoplay
+          muted
+          loop
+          style="max-height:600px;width:100%;object-fit:cover"
+        >
+          <source :src="mainVideo" type="video/mp4" />
+        </video>
+
+        <p class="mt-3 text-muted">
+          Trailer giới thiệu những bộ truyện hot nhất năm 2025
+        </p>
+      </div>
+    </section>
+
+    <!-- 8 VIDEO BANNER NHỎ -->
+    <section class="py-5 bg-gray-900">
+      <div class="container">
+        <h3 class="text-center text-white fw-bold mb-4">
+          Trailer truyện nổi bật
+        </h3>
+
+        <div class="row g-4">
+          <div
+            v-for="(video, index) in miniVideos"
+            :key="index"
+            class="col-6 col-md-3"
+          >
+            <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-lg hover-scale">
+              <video
+                :ref="el => miniVideoRefs[index] = el"
+                :src="video"
+                autoplay
+                muted
+                loop
+                playsinline
+                class="w-100 h-100 object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Stories -->
     <section class="py-5 bg-light">
-      <div class="container py-5">
-        <h2 class="text-center display-5 fw-bold mb-5 text-dark">Sản phẩm bán chạy</h2>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
-          <div v-for="product in hotProducts" :key="product._id" class="col">
-            <ProductCard :product="product" />
-          </div>
-        </div>
-        <div class="text-center mt-5">
-          <router-link to="/products" class="btn btn-primary btn-lg px-5 py-4 rounded-pill shadow-lg fw-bold fs-5">
-            Xem tất cả sản phẩm
-          </router-link>
-        </div>
-      </div>
-    </section>
+      <div class="container">
+        <h2 class="text-center fw-bold mb-4">
+          Truyện nổi bật & Đọc nhiều nhất
+        </h2>
 
-    <section class="py-5 bg-white">
-      <div class="container py-5">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-5 text-center">
-          <div class="col">
-            <div class="text-primary fs-1 mb-3"><i class="fas fa-truck"></i></div>
-            <h3 class="h4 fw-bold">Miễn phí vận chuyển</h3>
-            <p class="text-muted">Toàn quốc từ 2 triệu</p>
-          </div>
-          <div class="col">
-            <div class="text-primary fs-1 mb-3"><i class="fas fa-shield-alt"></i></div>
-            <h3 class="h4 fw-bold">Bảo hành chính hãng</h3>
-            <p class="text-muted">12-24 tháng, 1 đổi 1</p>
-          </div>
-          <div class="col">
-            <div class="text-primary fs-1 mb-3"><i class="fas fa-credit-card"></i></div>
-            <h3 class="h4 fw-bold">Trả góp 0%</h3>
-            <p class="text-muted">Chỉ cần CMND/CCCD</p>
-          </div>
-          <div class="col">
-            <div class="text-primary fs-1 mb-3"><i class="fas fa-headset"></i></div>
-            <h3 class="h4 fw-bold">Hỗ trợ 24/7</h3>
-            <p class="text-muted">Hotline & Zalo luôn online</p>
+        <div class="d-flex gap-3 overflow-auto pb-3">
+          <div
+            v-for="story in featuredStories"
+            :key="story._id"
+            style="width:112px"
+          >
+            <router-link :to="`/stories/${story._id}`">
+              <img :src="smallCover(story.coverImage)" class="rounded w-100" />
+              <p class="small fw-bold mt-1 line-clamp-2">
+                {{ story.title }}
+              </p>
+            </router-link>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="bg-gradient-primary text-white py-5">
-      <div class="container text-center py-5">
-        <h2 class="display-4 fw-bold mb-4">Sẵn sàng sở hữu siêu phẩm?</h2>
-        <p class="lead mb-5">Giá tốt nhất – Giao hàng nhanh nhất – Bảo hành dài nhất</p>
-        <router-link to="/products" class="btn btn-light btn-lg px-5 py-4 rounded-pill shadow-lg fw-bold fs-4">
-          MUA SẮM NGAY
-        </router-link>
-      </div>
-    </section>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import ProductService from "@/services/product.service";
-import ProductCard from "@/components/ProductCard.vue";
+import storyService from "@/services/story.service";
 
-// Ảnh logo và video banner
-import AppleLogo from "@/assets/img/LogoApple.jpg";
-import SamsungLogo from "@/assets/img/LogoApple.jpg";
-import XiaomiLogo from "@/assets/img/LogoApple.jpg";
-import OppoLogo from "@/assets/img/LogoApple.jpg";
-import VivoLogo from "@/assets/img/LogoApple.jpg";
-import GooglePixelLogo from "@/assets/img/LogoApple.jpg";
+/* video assets */
+import mainVideo from "@/assets/videos/Bannerchinh.mp4";
+import v1 from "@/assets/videos/Banner1.mp4";
+import v2 from "@/assets/videos/Banner2.mp4";
+import v3 from "@/assets/videos/Banner3.mp4";
+import v4 from "@/assets/videos/Banner4.mp4";
+import v5 from "@/assets/videos/Banner5.mp4";
+import v6 from "@/assets/videos/Banner6.mp4";
+import v7 from "@/assets/videos/Banner7.mp4";
+import v8 from "@/assets/videos/Banner8.mp4";
 
-// Assets cho Video Banner
-import VideoPoster from "@/assets/img/LogoApple.jpg"; 
-import BannerVideo from "@/assets/video/Banner.mp4"; 
+const miniVideos = [v1, v2, v3, v4, v5, v6, v7, v8];
 
-const hotProducts = ref([]);
+const mainVideoRef = ref(null);
+const miniVideoRefs = ref([]);
+const allPlaying = ref(true);
 
-const assets = {
-    AppleLogo,
-    SamsungLogo,
-    XiaomiLogo,
-    OppoLogo,
-    VivoLogo,
-    GooglePixelLogo,
-    VideoPoster,
-    BannerVideo,
+const toggleAllVideos = () => {
+  const videos = [
+    mainVideoRef.value,
+    ...miniVideoRefs.value
+  ].filter(Boolean);
+
+  if (allPlaying.value) {
+    videos.forEach(v => v.pause());
+  } else {
+    videos.forEach(v => v.play());
+  }
+
+  allPlaying.value = !allPlaying.value;
+};
+
+const featuredStories = ref([]);
+
+const smallCover = (url) => {
+  if (!url) return "https://via.placeholder.com/112x160";
+  if (url.includes("cloudinary"))
+    return url.replace(
+      "/upload/",
+      "/upload/c_fill,w_112,h_160,q_auto,f_auto/"
+    );
+  return url;
 };
 
 onMounted(async () => {
-  try {
-    // Lấy 8 sản phẩm bán chạy nhất
-    const res = await ProductService.getAll({ limit: 8, sortBy: "sold", sortOrder: "desc" });
-    hotProducts.value = (res.products || res).slice(0, 8);
-  } catch (err) {
-    console.log(err);
-  }
+  const res = await storyService.getFeatured({ limit: 20 });
+  featuredStories.value = res.stories || [];
 });
 </script>
 
 <style scoped>
-.bg-gradient-primary {
-  /* Màu sắc gradient chủ đạo */
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.video-control-global {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
 }
-.fill-light {
-    /* Đảm bảo đường cắt SVG khớp với nền phía sau (màu light/trắng) */
-    fill: var(--bs-light, #f8f9fa); 
+
+.bg-gradient-mystic {
+  background: linear-gradient(135deg,#6b46c1,#4c1d95,#2d1145);
+}
+.genre-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+.bg-fantasy { background: linear-gradient(135deg,#ff9a9e,#fad0c4); }
+.bg-action { background: linear-gradient(135deg,#a8edea,#fed6e3); }
+.bg-myth { background: linear-gradient(135deg,#ffecd2,#fcb69f); }
+.bg-adventure { background: linear-gradient(135deg,#d299c2,#fef9d7); }
+.bg-romance { background: linear-gradient(135deg,#84fab0,#8fd3f4); }
+.bg-scifi { background: linear-gradient(135deg,#a1c4fd,#c2e9fb); }
+
+.hover-scale {
+  transition: transform .3s, box-shadow .3s;
+}
+.hover-scale:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 40px rgba(0,0,0,.5);
+}
+.object-cover { object-fit: cover; }
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
